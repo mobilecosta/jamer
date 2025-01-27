@@ -34,7 +34,7 @@ User Function zGerSE1()
 	//              Nome               Campo         Máscara                        Tamanho                   Decimal                   Valid          Usado  Tipo F3     CBOX
 	//Aadd(aHeaderEx, {AllTrim(X3Titulo()),SX3->X3_CAMPO,SX3->X3_PICTURE               ,SX3->X3_TAMANHO           ,SX3->X3_DECIMAL,SX3->X3_VALID,SX3->X3_USADO,SX3->X3_TIPO,SX3->X3_F3,SX3->X3_CONTEXT,SX3->X3_CBOX,SX3->X3_RELACAO})
 	aAdd(aHeadTit, {"Prefixo",         "SE1_PREFIXO", "",                            TamSX3("E1_PREFIXO")[01], 0,                        ".T.",         ".T.", "C", "",    ""} )
-	aAdd(aHeadTit, {"Num.Título",      "SE1_NUM",     "",                            TamSX3("E1_NUM"    )[01], 0,                        ".T.",         ".T.", "C", "",    "",,"GetSXENum('SE1', 'E1_NUM')"} )
+	aAdd(aHeadTit, {"Num.Título",      "SE1_NUM",     "",                            TamSX3("E1_NUM"    )[01], 0,                        ".T.",         ".T.", "C", "",    "",,"u_Get2Tit()"} )
 	aAdd(aHeadTit, {"Parcela",         "SE1_PARCELA", "",                            TamSX3("E1_PARCELA")[01], 0,                        ".T.",         ".T.", "C", "",    ""} )
 	aAdd(aHeadTit, {"Tipo",            "SE1_TIPO",    "",                            TamSX3("E1_TIPO"   )[01], 0,                        ".T.",         ".T.", "C", "05",  ""} )
 	aAdd(aHeadTit, {"Natureza",        "SE1_NATUREZ", "",                            TamSX3("E1_NATUREZ")[01], 0,                        ".T.",         ".T.", "C", "SED", ""} )
@@ -63,12 +63,12 @@ User Function zGerSE1()
 
 		
 		//Grid dos títulos financeiros
-		oMsGetTit := MsNewGetDados():New(	029,;                                        //nTop
+		oMsGetTit := MsNewGetDados():New(	    029,;                                        //nTop
     										003,;                                        //nLeft
     										(nJanAltu/2)-3,;                             //nBottom
     										(nJanLarg/2)-3,;                             //nRight
     										GD_INSERT + GD_DELETE + GD_UPDATE,;          //nStyle
-    										"u_GetTit()",;                                 //cLinhaOk
+    										"AllwaysTrue()",;                            //cLinhaOk
     										,;                                           //cTudoOk
     										"",;                                         //cIniCpos
     										,;                                           //aAlter
@@ -359,7 +359,6 @@ Return lRet
 
 User Function GetTit()
 
-
 Local nLinha   := oMsGetTit:nAt
 
 If Empty( oMsGetTit:aCols[nLinha,2]) 
@@ -368,3 +367,14 @@ If Empty( oMsGetTit:aCols[nLinha,2])
 Endif   
 
 Return(.T.)
+
+
+User Function Get2Tit()
+
+Local nTitulo := GetSXENum('SE1', 'E1_NUM')
+
+ConfirmSX8()
+
+Return(nTitulo)
+
+
